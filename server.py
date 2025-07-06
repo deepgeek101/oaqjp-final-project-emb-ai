@@ -1,3 +1,4 @@
+"""Flask application for Emotion Detection"""
 from flask import Flask, request, render_template
 from EmotionDetection import emotion_detector
 
@@ -5,17 +6,18 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    """Render the index HTML page."""
     return render_template('index.html')
 
 @app.route('/emotionDetector')
 def emotion_detection():
+    """Handle emotion detection requests."""
     text_to_analyze = request.args.get('textToAnalyze')
     if text_to_analyze is None or text_to_analyze.strip() == '':
         return "Invalid text! Please try again!"
 
     result = emotion_detector(text_to_analyze)
 
-    # Check for None result (error case)
     if result['dominant_emotion'] is None:
         return "Invalid text! Please try again!"
 
